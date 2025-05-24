@@ -34,4 +34,11 @@ public class City {
         this.city_name = citySaveDto.city_name();
     }
 
+    public static City create(String cityName, Country country) {
+        return City.builder()
+            .city_name(cityName)
+            .country(country)
+            .build();
+    }
+
 }

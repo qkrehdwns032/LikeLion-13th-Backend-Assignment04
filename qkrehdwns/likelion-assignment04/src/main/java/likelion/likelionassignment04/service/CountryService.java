@@ -1,5 +1,7 @@
 package likelion.likelionassignment04.service;
 
+import likelion.likelionassignment04.common.error.ErrorCode;
+import likelion.likelionassignment04.common.exception.BusinessException;
 import likelion.likelionassignment04.domain.Country;
 import likelion.likelionassignment04.dto.country.CountryResponseDto;
 import likelion.likelionassignment04.dto.country.CountrySaveDto;
@@ -10,8 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +43,8 @@ public class CountryService {
     public CountryResponseDto findCountryById(Long countryId) {
         Country country = countryRepository
             .findById(countryId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 국가를 찾을 수 없습니다."));
+            .orElseThrow(() -> new BusinessException(ErrorCode.COUNTRY_NOT_FOUND_EXCEPTION,
+                ErrorCode.COUNTRY_NOT_FOUND_EXCEPTION.getMessage() + countryId));
 
         return CountryResponseDto.from(country);
     }
@@ -51,7 +52,8 @@ public class CountryService {
     @Transactional
     public void updateCountry(Long countryId, CountrySaveDto countrySaveDto) {
         Country country = countryRepository.findById(countryId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 국가를 찾을 수 없습니다."));
+            .orElseThrow(() -> new BusinessException(ErrorCode.COUNTRY_NOT_FOUND_EXCEPTION,
+                ErrorCode.COUNTRY_NOT_FOUND_EXCEPTION.getMessage() + countryId));
 
         country.update(countrySaveDto);
     }
@@ -59,7 +61,8 @@ public class CountryService {
     @Transactional
     public void deleteCountry(Long countryId) {
         Country country = countryRepository.findById(countryId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 국가를 찾을 수 없습니다."));
+            .orElseThrow(() -> new BusinessException(ErrorCode.COUNTRY_NOT_FOUND_EXCEPTION,
+                ErrorCode.COUNTRY_NOT_FOUND_EXCEPTION.getMessage() + countryId));
 
         countryRepository.delete(country);
     }

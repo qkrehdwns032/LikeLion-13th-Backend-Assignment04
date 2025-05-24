@@ -7,9 +7,8 @@ import likelion.likelionassignment04.dto.city.CityResponseDto;
 import likelion.likelionassignment04.dto.city.CitySaveDto;
 import likelion.likelionassignment04.service.CityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +28,9 @@ public class CityController {
 
     // 특정 국가의 도시들 조회
     @GetMapping("/city/{countryId}")
-    public ApiResTemplate<List<CityResponseDto>> findCitiesByCountryId(@PathVariable Long countryId) {
+    public ApiResTemplate<Page<CityResponseDto>> findCitiesByCountryId(@PathVariable Long countryId, Pageable pageable) {
 
-        return ApiResTemplate.successResponse(SuccessCode.GET_SUCCESS, cityService.findCitiesByCountryId(countryId));
+        return ApiResTemplate.successResponse(SuccessCode.GET_SUCCESS, cityService.findCitiesByCountryId(countryId , pageable));
     }
 
     @PatchMapping("/city/{cityId}")
